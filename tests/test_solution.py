@@ -1,4 +1,4 @@
-from code.solution import solution
+from code.solution import solution, IdNumber
 
 import pytest
 
@@ -26,3 +26,11 @@ def test_language(n, b):
 	""" Validate that language passes requirements and edge cases """
 	with pytest.raises(ValueError):
 		solution(n, b)
+
+
+@pytest.mark.parametrize('n, b', [
+	('1234', 2),
+	('1234', 3),
+	('1234', 11)
+	])
+def test_class_input(n, b):
