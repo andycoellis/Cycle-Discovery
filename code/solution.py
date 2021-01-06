@@ -1,5 +1,14 @@
 def solution(n, b):
-	# Code to be written
+
+	# Check that language is correct
+	import re
+	pattern = re.compile("^[1-9][0-9]+$")
+
+	if not pattern.match(n):
+		raise ValueError("Input string does not fit language")
+
+	id = IdNumber(n, b)
+
 	return 'Not implemented'
 
 
@@ -21,8 +30,12 @@ class IdNumber:
 		for i in range(0, len(n)):
 			if b < 1 or b > 10:
 				raise ValueError('Only numbers between and including base 1 and 10')
+			
 			if not int(n[i]) < b:
 				raise ValueError('Given string is not in base power supplied')
+
+			if len(n) < 2 or len(n) > 9:
+				raise ValueError('String length should be from length 2 to 9.')
 
 		self.base = b
 
