@@ -127,4 +127,4 @@ def test_class_addition_TypeError(x, y):
 	({'000111': 3, '123123': 3, '321321': 3, '234234': 3}, ['000111', '123123', '321321', '234234'])
 	])
 def test_get_reoccurring_numbers(d, l):
-	assert get_reoccurring_numbers(d) == l
+	assert get_reoccurring_numbers(d).sort() == l.sort()
