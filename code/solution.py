@@ -9,7 +9,53 @@ def solution(n, b):
 
 	id = IdNumber(n, b)
 
+	process_number(id)
+	
+	# Storage for 
+
+
+
 	return 'Not implemented'
+
+
+def process_number(n):
+	""" Returns the processed number following required algorithm found in readme """
+	b = n.base
+
+	x, y = create_sorted_IdNumber(n)
+
+	z = x - y
+	n = IdNumber(z, b)
+
+	return n
+
+
+def get_reoccurring_numbers(d):
+	"""
+	Checks dictionary for k numbers that have occured most and returns
+	the a list of numbers that have occurred k amount of times
+	"""
+	maxV = max(d.values())
+	items = [k for k,v in d.items() if v == maxV]
+
+	return items
+
+
+
+def create_sorted_IdNumber(n):
+	"""
+	Returns a new IdNumber sorted in asc and dsc order from original input.
+
+	Output: x:dsc_IdNumber, y:asc_IdNumber
+	"""
+	asc_number = sorted(n.number)
+
+	asc_number = ''.join(asc_number)
+
+	dsc_number = asc_number[::-1]
+
+	return IdNumber(dsc_number, n.base), IdNumber(asc_number, n.base)
+
 
 
 class IdNumber:
@@ -44,6 +90,9 @@ class IdNumber:
 
 		self.length = len(self.number)
 
+
+	def __eq__(self, o):
+		return self.base10 == o.base10
 
 
 	def __sub__(self, o):
