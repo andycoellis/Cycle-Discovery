@@ -1,4 +1,4 @@
-from code.solution import solution, IdNumber
+from code.solution import solution, get_reoccurring_numbers, IdNumber
 
 import pytest
 
@@ -118,3 +118,13 @@ def test_class_addition(x, y, result):
 def test_class_addition_TypeError(x, y):
 	with pytest.raises(TypeError):
 		check = x + y
+
+
+@pytest.mark.parametrize('d, l', [
+	({'000111': 1, '123123': 3, '321321': 3, '234234': 2}, ['123123', '321321']),
+	({'000111': 5, '123123': 3, '321321': 3, '234234': 2}, ['000111']),
+	({'000111': 1}, ['000111']),
+	({'000111': 3, '123123': 3, '321321': 3, '234234': 3}, ['000111', '123123', '321321', '234234'])
+	])
+def test_get_reoccurring_numbers(d, l):
+	assert get_reoccurring_numbers(d) == l
