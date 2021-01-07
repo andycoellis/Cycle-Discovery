@@ -1,15 +1,74 @@
 def solution(n, b):
+    # Check that language is correct
+    import re
+    pattern = re.compile("^[1-9][0-9]+$")
 
-	# Check that language is correct
-	import re
-	pattern = re.compile("^[1-9][0-9]+$")
+    if not pattern.match(n):
+        raise ValueError("Input string does not fit language")
 
-	if not pattern.match(n):
-		raise ValueError("Input string does not fit language")
+    id = IdNumber(n, b)
 
-	id = IdNumber(n, b)
+    # Code block processes the number then adds occurences to a dict
+    occurrences = {}
+    complete = False
+    sensitivity = 10
 
-	return 'Not implemented'
+    while not complete:
+        n = process_number(id)
+
+        if n.number in occurrences:
+            occurrences[n.number] = occurrences[n.number] + 1
+        else:
+            occurrences[n.number] = 0
+
+        if max(occurrences.values()) == sensitivity:
+            complete = True
+
+        id = n  # Update number to be processed for next loop
+
+    occurrences = get_reoccurring_numbers(occurrences)
+
+    return len(occurrences)
+
+
+def process_number(n):
+	""" Returns the processed number following required algorithm found in readme """
+	b = n.base
+
+	x, y = create_sorted_IdNumber(n)
+
+	z = x - y
+	n = IdNumber(z, b)
+
+	return n
+
+
+def get_reoccurring_numbers(d):
+    """
+    Checks dictionary for k numbers that have occured most and returns
+    the a list of numbers that have occurred k amount of times
+    """
+    maxV = max(d.values())
+    items = [k for k, v in d.items() if v >= maxV - 1]
+
+    return items
+
+
+
+def create_sorted_IdNumber(n):
+	"""
+	Returns a new IdNumber sorted in asc and dsc order from original input.
+
+	Output: x:dsc_IdNumber, y:asc_IdNumber
+	"""
+	asc_number = sorted(n.number)
+
+	asc_number = ''.join(asc_number)
+
+	dsc_number = asc_number[::-1]
+
+	return IdNumber(dsc_number, n.base), IdNumber(asc_number, n.base)
+
 
 
 class IdNumber:
@@ -44,6 +103,9 @@ class IdNumber:
 
 		self.length = len(self.number)
 
+
+	def __eq__(self, o):
+		return self.base10 == o.base10
 
 
 	def __sub__(self, o):
